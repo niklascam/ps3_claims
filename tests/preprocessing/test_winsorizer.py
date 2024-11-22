@@ -11,4 +11,10 @@ def test_winsorizer(lower_quantile, upper_quantile):
 
     X = np.random.normal(0, 1, 1000)
 
-    assert False
+    Xt = Winsorizer(
+        lower_quantile=lower_quantile, upper_quantile=upper_quantile
+    ).fit_transform(X)
+
+    assert (Xt.max() == np.quantile(X, q=upper_quantile)) & (
+        Xt.min() == np.quantile(X, lower_quantile)
+    )
